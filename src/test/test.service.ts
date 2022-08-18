@@ -1,8 +1,11 @@
 import { Ffmpeg, InjectFluentFfmpeg } from '@mrkwskiti/fluent-ffmpeg-nestjs';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { join } from 'path';
+import { UplaodDto } from 'src/multer/upload.dto';
 const ffmprobeInstaller = require('@ffprobe-installer/ffprobe');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
+import { Dropbox } from 'dropbox';
+import fs from 'fs';
 
 @Injectable()
 export class TestService {
@@ -43,7 +46,6 @@ export class TestService {
 
   async csvStream() {
     try {
-    
       const pathFile = join(process.cwd(), '/master/video.mp4');
       console.log(`pathFile===>${pathFile}`);
       this.ffmpeg.setFfmpegPath(ffmpegInstaller.path);
@@ -72,6 +74,20 @@ export class TestService {
       return 'end';
     } catch (e) {
       console.log(`e===>${e}`);
+      return e;
+    }
+  }
+
+  async uploadFile(file: Express.Multer.File) {
+    try {
+      console.log(file);
+      
+      if (!file) {
+        throw new BadRequestException();
+      }
+      return file;
+    } catch (e) {
+      console.log(e);
       return e;
     }
   }
