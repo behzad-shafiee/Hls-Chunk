@@ -2,11 +2,11 @@ import { extname, join } from 'path';
 import { existsSync, mkdirSync } from 'fs';
 import { diskStorage } from 'multer';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { TypeDropBoxFileEnum } from './type.file.enum';
+import { TypeDropBoxFileEnum } from '../hls/enums/type.file.enum';
 
 // Multer configuration
 
-const dest = join(process.cwd(), '/upload');
+const dest = join(process.cwd(), '/master/uploadChunk');
 export const multerConfig = {
   dest,
 };
